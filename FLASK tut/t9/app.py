@@ -19,10 +19,17 @@ limiter = Limiter(
 )
 
 # =========================================================================
-# 2. SECURITY DECORATOR (The "Bouncer")
+# 2. SECURITY DECORATOR 
 # =========================================================================
 # A Decorator is a function that "wraps" another function to add security checks.
-
+"""
+GPT
+ -> projects
+      |-> p1 (Education App)
+            |-> k1
+            |-> k2
+      |-> p2 (Ecommerce App)
+"""
 # In a real app, these would be in a database.
 VALID_API_KEYS = {"sk-ai-12345", "sk-ml-67890"}
 

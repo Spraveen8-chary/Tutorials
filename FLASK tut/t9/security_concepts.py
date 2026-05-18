@@ -33,4 +33,4 @@ HOW TO TEST:
 """
 
 def get_summary():
-    return "API Keys and Rate Limits are the first line of defense for AI services."
+   return "API Keys and Rate Limits are the first line of defense for AI services."

@@ -8,7 +8,7 @@ import random
 # =========================================================================
 
 app = Flask(__name__)
-
+# Redis is also used foe cache memory
 # Celery needs a "Broker" to send messages and a "Backend" to store results.
 # We use Redis for both. 
 # Think of Redis as a "Post Office" where Flask drops off tasks, 

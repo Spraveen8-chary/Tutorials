@@ -27,7 +27,7 @@ def generate_ai_response(prompt):
         yield f"data: {word} \n\n"
         
         # We simulate the AI "thinking" or "generating" by sleeping briefly.
-        time.sleep(random.uniform(0.1, 0.3))
+        time.sleep(random.uniform(0.1, 0.4))
 
 # =========================================================================
 # 2. FLASK ROUTES
@@ -54,4 +54,6 @@ def stream():
     return Response(generate_ai_response(prompt), mimetype='text/event-stream')
 
 if __name__ == '__main__':
+    for i in generate_ai_response("Hello, world!"):
+        print(i, end='', flush=True)
     app.run(debug=True)
