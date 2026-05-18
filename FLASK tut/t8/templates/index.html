@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Streaming Response</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e0e0e0; display: flex; justify-content: center; padding: 50px; }
+        .container { background: #1e1e1e; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); width: 600px; }
+        h2 { color: #bb86fc; text-align: center; }
+        #response-box { 
+            min-height: 100px; 
+            background: #2c2c2c; 
+            padding: 20px; 
+            border-radius: 8px; 
+            border-left: 4px solid #bb86fc;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            font-size: 18px;
+        }
+        button { 
+            width: 100%; 
+            padding: 12px; 
+            background: #03dac6; 
+            color: #000; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        button:disabled { background: #555; cursor: not-allowed; }
+        .cursor { display: inline-block; width: 10px; height: 18px; background: #03dac6; animation: blink 0.7s infinite; margin-left: 2px; }
+        @keyframes blink { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>AI Streamer (LLM Style)</h2>
+        <button id="stream-btn">Generate AI Response</button>
+        <div id="response-box"><span id="text-content">Click the button to see streaming in action...</span><span id="cursor" style="display:none;" class="cursor"></span></div>
+    </div>
+
+    <script>
+        const streamBtn = document.getElementById('stream-btn');
+        const textContent = document.getElementById('text-content');
+        const cursor = document.getElementById('cursor');
+
+        /**
+         * This function runs when you click 'Generate AI Response'.
+         * It connects to the Flask stream and displays words as they arrive.
+         */
+        streamBtn.onclick = () => {
+            // STEP 1: UI Cleanup
+            // Clear old text and disable button to prevent multiple clicks
+            textContent.innerText = "";
+            streamBtn.disabled = true;
+            cursor.style.display = 'inline-block'; // Show the "typing" cursor
+
+            // STEP 2: Use EventSource (The "Streaming Listener")
+            // EventSource is a built-in browser tool specifically for 
+            // 'Server-Sent Events' (SSE). It opens a long-lived connection.
+            const eventSource = new EventSource('/stream');
+
+            // STEP 3: Listen for messages
+            // This 'onmessage' function runs every time Python 'yields' a new word.
+            eventSource.onmessage = (event) => {
+                // 'event.data' is the word sent from the server.
+                // We add it to the screen along with a space.
+                textContent.innerText += event.data + " ";
+                
+                // Auto-scroll to the bottom of the page so the user sees the new text
+                window.scrollTo(0, document.body.scrollHeight);
+            };
+
+            // STEP 4: Handle completion or errors
+            // SSE connections stay open forever by default. 
+            // If the server stops sending data, we need to close the pipe manually.
+            eventSource.onerror = () => {
+                console.log("Streaming finished or interrupted.");
+                eventSource.close(); // Close the connection
+                streamBtn.disabled = false; // Re-enable the button
+                cursor.style.display = 'none'; // Hide the typing cursor
+            };
+        };
+    </script>
+</body>
+</html>
