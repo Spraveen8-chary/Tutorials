@@ -1,5 +1,5 @@
 import asyncio
-import httpx
+import httpx # requests
 import time
 
 """
@@ -48,7 +48,8 @@ async def main():
     end = time.perf_counter()
     
     print("\nResults Summary:")
-    for res in results: print(f" - {res}")
+    for res in results: 
+        print(f" - {res}")
     print(f"\nTotal time for 5 API calls: {end - start:.2f} seconds")
 
 if __name__ == "__main__":

@@ -2,58 +2,129 @@ import asyncio
 import time
 
 """
-===========================================================================
-LESSON 1: ASYNC & AWAIT (The Foundation)
-===========================================================================
+===========================================================
+UNDERSTANDING NORMAL vs ASYNC EXECUTION
+===========================================================
 
-1. WHAT IS IT?
-   'async' defines a coroutine (a function that can be paused).
-   'await' is the pause button. It tells Python: "Stop here, let the server
-   do other things, and come back when this specific task is finished."
+We will compare:
 
-2. WHY DO WE USE IT?
-   In standard Python, code is "Synchronous" (one line at a time).
-   If you have a task that takes 5 seconds (like an API call), the WHOLE
-   program freezes. In a web app, this means no other user can use the app.
-   Async/Await solves this by allowing "Non-Blocking" execution.
+1. Normal Sequential Execution
+2. Async Sequential Execution
+3. Async Concurrent Execution
 
-3. INDUSTRY USE CASE (AI/ML):
-   Think of a Chatbot like ChatGPT. While the AI is "thinking" or the 
-   network is "waiting" for the next token from OpenAI, the server 
-   shouldn't freeze. It should be able to accept messages from 500 other 
-   users at the same time. Asyncio makes this possible on a single thread.
-===========================================================================
+This will clearly show WHY asyncio is powerful.
+===========================================================
 """
 
-async def simulate_api_call(user_id):
-    """
-    Simulates calling an AI model API which takes 2 seconds.
-    """
-    print(f"--- [TASK START] Requesting AI response for User {user_id} ---")
-    
-    # ---------------------------------------------------------
-    # THE MAGIC: asyncio.sleep vs time.sleep
-    # time.sleep(2) would FREEZE the whole computer.
-    # asyncio.sleep(2) tells the manager "I'm waiting, go do other work!"
-    # ---------------------------------------------------------
-    await asyncio.sleep(2) 
-    
-    print(f"--- [TASK END] AI response ready for User {user_id} ---")
-    return f"Response for {user_id}"
 
-async def main():
-    print("DEMO: Handling tasks one-by-one but without freezing.")
+# =========================================================
+# NORMAL FUNCTION (BLOCKING)
+# =========================================================
+
+def normal_task(name):
+    print(f"[NORMAL START] {name}")
+
+    # BLOCKS the entire program
+    time.sleep(2)
+
+    print(f"[NORMAL END] {name}")
+
+    return f"Result of {name}"
+
+
+# =========================================================
+# ASYNC FUNCTION (NON-BLOCKING)
+# =========================================================
+
+async def async_task(name):
+    print(f"[ASYNC START] {name}")
+
+    # DOES NOT block the event loop
+    await asyncio.sleep(2)
+
+    print(f"[ASYNC END] {name}")
+
+    return f"Result of {name}"
+
+
+# =========================================================
+# 1. NORMAL SEQUENTIAL EXECUTION
+# =========================================================
+
+def run_normal():
+    print("\n================ NORMAL EXECUTION ================")
+
     start = time.perf_counter()
 
-    # We await the first task
-    res1 = await simulate_api_call("Alice")
-    # We await the second task
-    res2 = await simulate_api_call("Bob")
+    res1 = normal_task("Alice")
+    res2 = normal_task("Bob")
 
     end = time.perf_counter()
-    print(f"\nFinal Results: {res1}, {res2}")
+
+    print(f"\nResults: {res1}, {res2}")
     print(f"Total Time: {end - start:.2f} seconds")
 
+
+# =========================================================
+# 2. ASYNC BUT STILL SEQUENTIAL
+# =========================================================
+
+async def run_async_sequential():
+    print("\n============ ASYNC SEQUENTIAL EXECUTION ============")
+
+    start = time.perf_counter()
+
+    # STILL SEQUENTIAL
+    res1 = await async_task("Alice")
+    res2 = await async_task("Bob")
+
+    end = time.perf_counter()
+
+    print(f"\nResults: {res1}, {res2}")
+    print(f"Total Time: {end - start:.2f} seconds")
+
+
+# =========================================================
+# 3. REAL ASYNC CONCURRENT EXECUTION
+# =========================================================
+
+async def run_async_concurrent():
+    print("\n============ ASYNC CONCURRENT EXECUTION ============")
+
+    start = time.perf_counter()
+
+    # Create tasks
+    task1 = asyncio.create_task(async_task("Alice"))
+    task2 = asyncio.create_task(async_task("Bob"))
+
+    # Run BOTH together
+    results = await asyncio.gather(task1, task2)
+
+    end = time.perf_counter()
+
+    print(f"\nResults: {results}")
+    print(f"Total Time: {end - start:.2f} seconds")
+
+
+# =========================================================
+# MAIN
+# =========================================================
+
+async def main():
+
+    # Normal Blocking
+    run_normal()
+
+    # Async but sequential
+    await run_async_sequential()
+
+    # Real concurrent async
+    await run_async_concurrent()
+
+
+# =========================================================
+# START EVENT LOOP
+# =========================================================
+
 if __name__ == "__main__":
-    # Start the 'Event Loop' (The Manager)
     asyncio.run(main())

@@ -43,7 +43,6 @@ async def search_database():
 async def main():
     print("DEMO: Running 3 search tasks in parallel.")
     start = time.perf_counter()
-
     # ---------------------------------------------------------
     # THE POWER: asyncio.gather
     # We pass the function calls as arguments.
@@ -57,7 +56,8 @@ async def main():
     end = time.perf_counter()
     
     print("\nCombined Results:")
-    for r in results: print(f" - {r}")
+    for r in results: 
+        print(f" - {r}")
     
     # Notice: Total time is ~1.5s (the slowest task), not 3.0s!
     print(f"\nTotal Latency: {end - start:.2f} seconds")

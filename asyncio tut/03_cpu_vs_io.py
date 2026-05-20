@@ -57,3 +57,25 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+
+
+"""
+pblm 
+------
+while True:
+    prediting(live_captures)  
+------
+
+async def predict(live_captures):
+    // calling model 
+    // predict the response
+    return prediction   
+
+while True:
+    prediction = create a Thread pool and send the live captures to the predict function to 
+    reduce the latency and not freeze the main thread.
+    display the prediction on the UI
+
+"""

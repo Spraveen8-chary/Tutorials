@@ -46,7 +46,7 @@ async def task_worker(name, work_duration):
 
 async def main():
     print("--- DEMO: THE EVENT LOOP IN ACTION ---")
-    print("Notice how Task B starts even though Task A isn't finished!\n")
+    # print("Notice how Task B starts even though Task A isn't finished!\n")
     
     # We create two tasks with different durations.
     # Task A takes 3 seconds, Task B takes 1 second.
@@ -62,8 +62,8 @@ async def main():
     # ---------------------------------------------------------
     
     await asyncio.gather(
-        task_worker("A", 3),
-        task_worker("B", 1)
+        task_worker("A", 13),
+        task_worker("B", 10)
     )
 
     print("\n--- DEMO FINISHED ---")
