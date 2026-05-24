@@ -78,3 +78,16 @@ def test_urls(request: Request):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
+
+
+
+
+"""
+URL_FOR examples scenario
+
+if user_details:
+    return redirect(url_for(login))
+else:
+    return url_for(login_page)
+
+"""

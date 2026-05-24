@@ -9,7 +9,7 @@ A user signs up, and you need to send them a welcome email. Sending
 an email takes 2-3 seconds. You don't want the user to wait for that 
 to finish before seeing a "Success" page.
 
-Topic:
+Topic: 
 ------
 1. Built-in `BackgroundTasks`
 2. Difference between Background Tasks and Async functions

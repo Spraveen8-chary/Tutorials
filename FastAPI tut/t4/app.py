@@ -51,32 +51,11 @@ app = FastAPI()
 # We 'mount' a directory to a path.
 # This means files in the local 'static' folder will be available at /static
 # (Create the 'static/css' folder and a 'style.css' file first!)
-os.makedirs("static/css", exist_ok=True)
-with open("static/css/style.css", "w") as f:
-    f.write("body { font-family: sans-serif; background-color: #f0f0f0; }\n")
-    f.write(".container { max-width: 600px; margin: 50px auto; background: white; padding: 20px; border-radius: 8px; }")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # 2. SETUP TEMPLATES
 # We tell FastAPI where to look for HTML files.
-os.makedirs("templates", exist_ok=True)
-with open("templates/index.html", "w") as f:
-    f.write("""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
-        <title>FastAPI Templates</title>
-    </head>
-    <body>
-        <div class="container">
-            <h1>Hello, {{ username }}!</h1>
-            <p>This page is rendered using Jinja2 and FastAPI.</p>
-        </div>
-    </body>
-    </html>
-    """)
 
 templates = Jinja2Templates(directory="templates")
 

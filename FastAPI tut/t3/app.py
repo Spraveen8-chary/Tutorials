@@ -74,7 +74,10 @@ def login_json(data: LoginSchema):
     """
     if data.username == "admin" and data.password == "secret":
         return {"message": "Login successful", "auth_type": "JSON"}
-    
+    else:
+        if data.username == "praveen" and data.password == "12345":
+            return {"message": "Login Successful as a Praveen", "auth_type": "JSON"}
+        
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid credentials"

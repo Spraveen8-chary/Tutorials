@@ -92,7 +92,7 @@ def get_secret_data(api_key: str = Depends(verify_api_key)):
 # ======================================================
 
 # If you wanted to lock the ENTIRE API, you would do:
-# app = FastAPI(dependencies=[Depends(verify_api_key)])
+app = FastAPI(dependencies=[Depends(verify_api_key)])
 
 @app.get("/rate-limit-info")
 def rate_limit():
