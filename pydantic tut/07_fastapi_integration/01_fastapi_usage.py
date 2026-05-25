@@ -6,9 +6,9 @@ app = FastAPI(title="Pydantic & FastAPI Tutorial")
 
 # 1. Define Request Model
 class ItemCreate(BaseModel):
-    name: str = Field(..., min_length=3, max_length=50)
+    name: str = Field(min_length=3, max_length=50)
     description: Optional[str] = Field(None, max_length=100)
-    price: float = Field(..., gt=0)
+    price: float = Field(gt=0)
     tags: List[str] = []
 
 # 2. Define Response Model

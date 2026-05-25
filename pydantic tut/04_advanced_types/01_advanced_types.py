@@ -38,9 +38,14 @@ print(f"API Key (actual): {company.api_key.get_secret_value()}")
 
 # Invalid data example
 try:
-    invalid_data = data.copy()
-    invalid_data["support_email"] = "not-an-email"
-    invalid_data["employee_count"] = -5
-    Company(**invalid_data)
+    data = {
+        "name": "Tech Corp",
+        "website": "https://techcorp.com",
+        "support_email": "not-an-email",
+        "office_ip": "192.168.1.1",
+        "api_key": "sk_test_12345",
+        "employee_count": -5
+    }
+    Company(**data)
 except Exception as e:
     print(f"\nCaught Expected Advanced Type Errors:\n{e}")
