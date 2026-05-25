@@ -22,6 +22,19 @@ class ItemResponse(BaseModel):
 # Mock Database
 items_db = []
 
+"""
+{
+    1 : {
+        "name": "phone",
+        "description": "he;asfwaf",
+        "price": 1,
+        "tags": ["small","large"]
+        },
+    2 : {}
+}
+"""
+
+
 @app.post("/items/", response_model=ItemResponse)
 async def create_item(item: ItemCreate):
     # 'item' is already a validated Pydantic model instance here!
