@@ -39,6 +39,6 @@ print(f"Model as JSON: {user_json}")
 
 # 3. Forbid Extra Fields
 try:
-    UserProfile(username="alice", bio="coder", extra_field="not allowed")
+    UserProfile(username="alice", bio="coder", extra_field="data items asfsadfafafaerger")
 except Exception as e:
     print(f"\nCaught Expected Extra Field Error:\n{e}")
