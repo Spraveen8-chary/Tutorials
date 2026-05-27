@@ -34,17 +34,22 @@ def home():
     return "Response received after 2 seconds!"
 
 if __name__ == '__main__':
-    # ---------------------------------------------------------
-    # PRODUCTION CONFIGURATION
-    # ---------------------------------------------------------
-    from waitress import serve
-    
-    print("--- SERVER STARTING WITH WAITRESS ---")
-    print("Configuration: 50 Parallel Threads")
-    print("This server can now handle 50 people at the same time.")
-    
-    # 'threads=50' tells Waitress to hire 50 "waiters" to handle requests.
-    serve(app, host='127.0.0.1', port=5000, threads=50)
+   # ---------------------------------------------------------
+   # PRODUCTION CONFIGURATION
+   # ---------------------------------------------------------
+   # app.run(debug=True)
+
+
+
+
+
+   from waitress import serve
+   print("--- SERVER STARTING WITH WAITRESS ---")
+   print("Configuration: 50 Parallel Threads")
+   print("This server can now handle 50 people at the same time.")
+   
+   # 'threads=50' tells Waitress to hire 50 "waiters" to handle requests.
+   serve(app, host='127.0.0.1', port=5000, threads=50)
 
 """
 HOW TO TEST THE LOAD:
